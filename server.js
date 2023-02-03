@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const { resolve } = require("path");
-// Replace if using a different env file or config
 const env = require("dotenv").config({ path: "./.env" });
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
@@ -24,12 +23,12 @@ app.get("/config", (req, res) => {
 app.post("/create-payment-intent", async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      currency: "EUR",
+      currency: "USD",
       amount: 1999,
       automatic_payment_methods: { enabled: true },
     });
 
-    // Send publishable key and PaymentIntent details to client
+    // Send publishable key and PaymentIntent details to MOW
     res.send({
       clientSecret: paymentIntent.client_secret,
     });
